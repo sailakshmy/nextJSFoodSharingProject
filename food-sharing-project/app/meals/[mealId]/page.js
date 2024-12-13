@@ -2,6 +2,19 @@ import { getMeal } from "@/lib/meals";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import classes from "./page.module.css";
+
+export async function generateMetadata(params) {
+  const { mealId } = await params;
+  const meal = getMeal(mealId);
+  if (!meal) {
+    notFound();
+  }
+  return {
+    title: meal?.title,
+    description: meal?.description,
+  };
+}
+
 const MealDetailsPage = async ({ params }) => {
   const { mealId } = await params;
   const meal = getMeal(mealId);
